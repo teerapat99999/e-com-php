@@ -2,6 +2,9 @@
 include_once('./db.php');
 session_start();
 $id_user = $_SESSION['id_user'];
+if(isset($_POST['add'])){
+    
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
