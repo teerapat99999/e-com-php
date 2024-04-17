@@ -1,6 +1,7 @@
 <?php 
 session_start();
 include('./db.php');
+if(isset($_SESSION['id_user'])){
 $id_user = $_SESSION['id_user'];
 if(isset($_POST['addstatus'])){
     $id_or = rand();
@@ -10,16 +11,22 @@ if(isset($_POST['addstatus'])){
     $img_product = $_POST['img_product'];
     $id_user = $id_user;
     $id_shop = $_POST['id_shop'];
+    $id_cart = $_POST['id_cart'];
     
     $stmt = $conn->prepare("INSERT INTO status_or (id_or,name_product,price_product,amount,img_product,id_user,id_shop) value (?,?,?,?,?,?,?)");
     $stmt->bind_param("issssii",$id_or,$name_product,$price_product,$amount,$img_product,$id_user,$id_shop);
     $stmt->execute();
+
+    $delete = $conn->prepare("DELETE FROM cart  WHERE id_cart = ? ");
+    $delete->bind_param("i",$id_cart);
+    $delete->execute();
 }
 if(isset($_POST['del'])){
     $id_cart = $_POST['id_cart'];
     $stmt = $conn->prepare("DELETE FROM cart WHERE id_cart = ? ");
     $stmt->bind_param("i",$id_cart);
     $stmt->execute();
+}
 }
 ?>
 <!DOCTYPE html>
@@ -42,7 +49,9 @@ if(isset($_POST['del'])){
             <div class="col-sm-12 col-md-8 col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <?php $result = $conn->query("SELECT * FROM cart WHERE id_user = $id_user"); 
+                        <?php if(isset($id_user)){ ?>
+                        <?php $result = $conn->query("SELECT * FROM cart WHERE id_user = $id_user");
+                        if($result->num_rows > 0 ){ 
                         while($row = $result->fetch_assoc()){
                         ?>
                         <form action="" method="post">
@@ -66,6 +75,7 @@ if(isset($_POST['del'])){
                             <input type="hidden" name="amount" value='<?php echo $row['amount']; ?>'>
                             <input type="hidden" name="img_product" value='<?php echo $row['img_product']; ?>'>
                             <input type="hidden" name="id_shop" value='<?php echo $row['id_shop']; ?>'>
+                            <input type="hidden" name="id_cart" value='<?php echo $row['id_cart']; ?>'>
                             <input type="submit" value="สั่งซื้อ" name='addstatus' class="btn btn-success">
                             </div>
                             <div class="col-2" >
@@ -75,7 +85,21 @@ if(isset($_POST['del'])){
                         </div>
                         </div>
                         </form>
-                        <?php } ?>
+                        <?php }
+                        }else echo"ไม่มีสินค้า";
+                        }else{
+                            echo "ไม่ได้สมัครสมาชิก";
+                        } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5"></div>
+        <div class="row justify-content-center aling-item-center">
+            <div class="col-sm-12 col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        
                     </div>
                 </div>
             </div>
