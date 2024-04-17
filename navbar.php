@@ -17,7 +17,7 @@
                 <a class="nav-link" href="./shop/addshop.php">สมัครสมาชิกร้าน</a>
               </li>
               <li class="nav-item">
-                <a href= "./cart.php" class='nav-link'>ตระกร้าสินค้า</a>
+                <a href= "./cart.php" class='nav-link'>สถานะการสั่งซื้อ</a>
               </li>
             </ul>
             <form class="d-flex" role="search">

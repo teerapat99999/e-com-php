@@ -1,33 +1,9 @@
 <?php 
 session_start();
 include('./db.php');
-if(isset($_SESSION['id_user'])){
 $id_user = $_SESSION['id_user'];
-if(isset($_POST['add'])){
-    $id_or = rand();
-    $name_product = $_POST['name_product'];
-    $price_product =  $_POST['price_product'];
-    $amount = $_POST['amount'];
-    $img_product = $_POST['img_product'];
-    $id_user = $_POST['id_user'];
-    $id_shop = $_POST['id_shop'];
+if(isset($_POST['addstatus'])){
 
-    $stmt = $conn->prepare("INSERT INTO  orderd (id_or,name_product,price_product,amount,img_product,id_user,id_shop) VALUE (?,?,?,?,?,?,?)");
-    $stmt->bind_param("issssii",$id_or,$name_product,$price_product,$amount,$img_product,$id_user,$id_shop);
-    $stmt->execute();
-
-    $stmtde = $conn->prepare("DELETE FROM cart WHERE id_user = ? ");
-    $stmtde->bind_param("i",$id_user);
-    $stmtde->execute();
-}
-if(isset($_POST['del'])){
-    $id_cart = $_POST['id_cart'];
-    $stmt = $conn->prepare("DELETE FROM cart WHERE id_cart = ? ");
-    $stmt->bind_param("i", $id_cart);
-    $stmt->execute();
-}
-}else{
-     
 }
 ?>
 <!DOCTYPE html>
@@ -41,52 +17,49 @@ if(isset($_POST['del'])){
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </head>
+</head>
 <body>
     <?php include('./navbar.php'); ?>
-    <div class="container">
-        <div style='height:90px;'></div>
+    <div class="container-fluid">
+        <div style='height:150px;'></div>
         <div class="row justify-content-center aling-item-center">
             <div class="col-sm-12 col-md-8 col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row justify-content-center aling-item-center">
-                        <?php 
-                        if(isset($id_user)){
-                        $result = $conn->query("SELECT * FROM cart WHERE id_user = $id_user");
-                        if($result->num_rows > 0){
-                        $sum = 0 ;
+                        <?php $result = $conn->query("SELECT * FROM cart WHERE id_user = $id_user"); 
                         while($row = $result->fetch_assoc()){
-                        $total  = $row['price_product'] * $row['amount'];
-                        $sum += $total;   
                         ?>
-                        <div class="col-sm-12 col-md-8 col-lg-6">
-                        <div class="mb-3">
-                                <div class="card">
-                                    <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:150px;' alt="">
-                                    <div class="card-body">
-                                    <h5> ชื่อสินค้า <?php echo $row['name_product']; ?> </h5>
-                                    <h5> ราคา <?php echo $row['price_product']; ?> บาท </h5>
-                                    <h5>จำนวน <?php echo $row['amount']; ?> หน่วย/ชิ้น </h5>
-                                    <div class='col' align=''>
-                                        <form action="" method="post">
-                                        <input type="hidden" name="id_cart" value='<?php echo $row['id_cart']; ?>'>
-                                        <input type="submit" value='ลบ' name='del' class="btn btn-danger">
-                                        </form>
-                                    </div>
-                                </div>
-                                </div>
+                        <form action="" method="post">
+                        <div class="mb-2">
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:100px; max-width:110px;' class='' alt="">
+                            </div>
+                            <div class="col">
+                                <h5>ชื่อสินค้า <?php echo $row['name_product']; ?> </h5>
+                            </div>
+                            <div class="col">
+                                <h5>ราคา <?php echo $row['price_product']; ?> บาท </h5>
+                            </div>
+                            <div class="col">
+                                <h5>จำนวน <?php echo $row['amount']; ?> หน่วย/ชิ้น</h5>
+                            </div>
+                            <div class="col">
+                                <input type="text" name='phone' class="form-control" placeholder = 'เบอร์โทร' require>
+                            </div>
+                            <div class="col">
+                                <input type="text" name='address' class="form-control" placeholder = 'ที่อยู่' require>
+                            </div>
+                            <div class="col">
+                            <input type="submit" value="สั่งซื้อ" name='addstatus' class="btn btn-success">
+                            </div>
+                            <div class="col">
+                                <input type="text" name='del' class="btn btn-close">
+                            </div>
                         </div>
                         </div>
+                        </form>
                         <?php } ?>
-                        <?php 
-                        }else{
-                            echo "ไม่มีสินค้าในตระกร้า";
-                        }
-                     }else{
-                        echo "ไม่ได้สมัครสมาชิก";
-                     }
-                      ?>
-                        </div>
                     </div>
                 </div>
             </div>

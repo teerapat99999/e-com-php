@@ -14,8 +14,8 @@ if(isset($_POST['add'])){
   $stmt->bind_param("sssssi", $id_user,$name_product,$price_product,$img_product,$amount,$id_shop);
   
   if($stmt->execute()){
-    echo "เพิ่มตระกร้าสำเร็จ";
     $_SESSION['id_user'] = $id_user;
+    header("location:./cart.php");
   }else{
     echo "เกิดข้อผิดพลาด";
   }
@@ -96,7 +96,7 @@ if(isset($_POST['add'])){
                        <input type="hidden" name="id_shop" value='<?php echo $row['id_shop']; ?>'>
                        <input type="number" name="amount" value='1' min='1'  class='form-control' id="">
                        <div class="mt-2">
-                       <input type="submit" value="เพิ่มลงตระกร้า" name='add'  class="btn btn-success">
+                       <input type="submit" value="สั่งซื้อ" name='add'  class="btn btn-success">
                        </div>
                     </form>
                     </div>
