@@ -3,7 +3,23 @@ session_start();
 include('./db.php');
 $id_user = $_SESSION['id_user'];
 if(isset($_POST['addstatus'])){
-
+    $id_or = rand();
+    $name_product = $_POST['name_product'];
+    $price_product = $_POST['price_product'];
+    $amount = $_POST['amount'];
+    $img_product = $_POST['img_product'];
+    $id_user = $id_user;
+    $id_shop = $_POST['id_shop'];
+    
+    $stmt = $conn->prepare("INSERT INTO status_or (id_or,name_product,price_product,amount,img_product,id_user,id_shop) value (?,?,?,?,?,?,?)");
+    $stmt->bind_param("issssii",$id_or,$name_product,$price_product,$amount,$img_product,$id_user,$id_shop);
+    $stmt->execute();
+}
+if(isset($_POST['del'])){
+    $id_cart = $_POST['id_cart'];
+    $stmt = $conn->prepare("DELETE FROM cart WHERE id_cart = ? ");
+    $stmt->bind_param("i",$id_cart);
+    $stmt->execute();
 }
 ?>
 <!DOCTYPE html>
@@ -31,30 +47,30 @@ if(isset($_POST['addstatus'])){
                         ?>
                         <form action="" method="post">
                         <div class="mb-2">
-                        <div class="row justify-content-center">
-                            <div class="col">
-                                <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:100px; max-width:110px;' class='' alt="">
+                        <div class="row justify-content-center" align='center'>
+                            <div class="col-2">
+                                <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:150px; max-width:150px;' class='' alt="">
                             </div>
-                            <div class="col">
+                            <div class="col-2">
                                 <h5>ชื่อสินค้า <?php echo $row['name_product']; ?> </h5>
                             </div>
-                            <div class="col">
+                            <div class="col-2">
                                 <h5>ราคา <?php echo $row['price_product']; ?> บาท </h5>
                             </div>
-                            <div class="col">
+                            <div class="col-3">
                                 <h5>จำนวน <?php echo $row['amount']; ?> หน่วย/ชิ้น</h5>
                             </div>
-                            <div class="col">
-                                <input type="text" name='phone' class="form-control" placeholder = 'เบอร์โทร' require>
-                            </div>
-                            <div class="col">
-                                <input type="text" name='address' class="form-control" placeholder = 'ที่อยู่' require>
-                            </div>
-                            <div class="col">
+                            <div class="col-1">
+                            <input type="hidden" name="name_product" value='<?php echo $row['name_product']; ?>'>
+                            <input type="hidden" name="price_product" value='<?php echo $row['price_product']; ?>'>
+                            <input type="hidden" name="amount" value='<?php echo $row['amount']; ?>'>
+                            <input type="hidden" name="img_product" value='<?php echo $row['img_product']; ?>'>
+                            <input type="hidden" name="id_shop" value='<?php echo $row['id_shop']; ?>'>
                             <input type="submit" value="สั่งซื้อ" name='addstatus' class="btn btn-success">
                             </div>
-                            <div class="col">
-                                <input type="text" name='del' class="btn btn-close">
+                            <div class="col-2" >
+                                <input type="hidden" name="id_cart" value= '<?php echo $row['id_cart']; ?>'>
+                                <input type="submit" name='del' value='' class="btn btn-close">
                             </div>
                         </div>
                         </div>
