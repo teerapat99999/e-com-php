@@ -1,14 +1,5 @@
 <?php 
-$server = "localhost";
-$username = 'root';
-$password = '';
-$dbname = "project";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection error: " . $conn->connect_error);
-}
+include('./../db.php');
 
 if(isset($_POST['submit'])) {
     $email_shop = $_POST['email_shop'];

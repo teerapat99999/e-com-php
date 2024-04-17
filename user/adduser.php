@@ -1,15 +1,6 @@
 
 <?php
-$servar = "localhost";
-$username = "root";
-$password = "";
-$dbname = "project";
-
-$conn = new mysqli($servar,$username,$password,$dbname);
-
-if($conn->connect_error){
-    die("connect error : " . $conn->connect_error );
-}
+include('./../db.php');
 if(isset($_POST['sum'])){
     $email_user = $_POST['email_user'];
     $password_user = $_POST['password_user'];
