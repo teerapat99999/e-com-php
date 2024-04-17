@@ -1,9 +1,10 @@
 <?php 
-include('./db.php');
 session_start();
+include('./db.php');
+if(isset($_SESSION['id_user'])){
 $id_user = $_SESSION['id_user'];
 if(isset($_POST['add'])){
-    $id_sum = rand();
+    $id_or = rand();
     $name_product = $_POST['name_product'];
     $price_product =  $_POST['price_product'];
     $amount = $_POST['amount'];
@@ -11,7 +12,22 @@ if(isset($_POST['add'])){
     $id_user = $_POST['id_user'];
     $id_shop = $_POST['id_shop'];
 
-    $stmt = $conn->prepare("INSERT INTO  ");
+    $stmt = $conn->prepare("INSERT INTO  orderd (id_or,name_product,price_product,amount,img_product,id_user,id_shop) VALUE (?,?,?,?,?,?,?)");
+    $stmt->bind_param("issssii",$id_or,$name_product,$price_product,$amount,$img_product,$id_user,$id_shop);
+    $stmt->execute();
+
+    $stmtde = $conn->prepare("DELETE FROM cart WHERE id_user = ? ");
+    $stmtde->bind_param("i",$id_user);
+    $stmtde->execute();
+}
+if(isset($_POST['del'])){
+    $id_cart = $_POST['id_cart'];
+    $stmt = $conn->prepare("DELETE FROM cart WHERE id_cart = ? ");
+    $stmt->bind_param("i", $id_cart);
+    $stmt->execute();
+}
+}else{
+     
 }
 ?>
 <!DOCTYPE html>
@@ -35,7 +51,7 @@ if(isset($_POST['add'])){
                     <div class="card-body">
                         <div class="row justify-content-center aling-item-center">
                         <?php 
-                        
+                        if(isset($id_user)){
                         $result = $conn->query("SELECT * FROM cart WHERE id_user = $id_user");
                         if($result->num_rows > 0){
                         $sum = 0 ;
@@ -51,28 +67,25 @@ if(isset($_POST['add'])){
                                     <h5> ชื่อสินค้า <?php echo $row['name_product']; ?> </h5>
                                     <h5> ราคา <?php echo $row['price_product']; ?> บาท </h5>
                                     <h5>จำนวน <?php echo $row['amount']; ?> หน่วย/ชิ้น </h5>
-                                    <div class='col' align='center'>
-                                        <input type="text" value='ลบ' name='del' class="btn btn-danger">
+                                    <div class='col' align=''>
+                                        <form action="" method="post">
+                                        <input type="hidden" name="id_cart" value='<?php echo $row['id_cart']; ?>'>
+                                        <input type="submit" value='ลบ' name='del' class="btn btn-danger">
+                                        </form>
                                     </div>
                                 </div>
                                 </div>
                         </div>
                         </div>
-                        <?php }
-                        ?>
-                        <div class="col-sm-12 col-md-8 col-lg-6">
-                            <div class="mb-3" align='center'>
-                                <div class="card">
-                                    <div class="card-body">
-                                    <h5> ราคารวม <?php echo $sum ?> บาท </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
                         <?php 
                         }else{
                             echo "ไม่มีสินค้าในตระกร้า";
-                        } ?>
+                        }
+                     }else{
+                        echo "ไม่ได้สมัครสมาชิก";
+                     }
+                      ?>
                         </div>
                     </div>
                 </div>
