@@ -17,6 +17,10 @@ if(isset($_POST['addstatus'])){
     $stmt->bind_param("issssii",$id_or,$name_product,$price_product,$amount,$img_product,$id_user,$id_shop);
     $stmt->execute();
 
+    $stmt = $conn->prepare("UPDATE  product_shop SET amount - ? ");
+    $stmt->bind_param("i",$amount);
+    $stmt->execute();
+
     $delete = $conn->prepare("DELETE FROM cart  WHERE id_cart = ? ");
     $delete->bind_param("i",$id_cart);
     $delete->execute();
