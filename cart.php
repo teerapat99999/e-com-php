@@ -44,7 +44,7 @@ if(isset($_POST['del'])){
 <body>
     <?php include('./navbar.php'); ?>
     <div class="container-fluid">
-        <div style='height:150px;'></div>
+        <div style='height:130px;'></div>
         <div class="row justify-content-center aling-item-center">
             <div class="col-sm-12 col-md-8 col-lg-6">
                 <div class="card">
@@ -57,16 +57,16 @@ if(isset($_POST['del'])){
                         <form action="" method="post">
                         <div class="mb-2">
                         <div class="row justify-content-center" align='center'>
-                            <div class="col-2">
+                            <div class="col">
                                 <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:150px; max-width:150px;' class='' alt="">
                             </div>
-                            <div class="col-2">
+                            <div class="col">
                                 <h5>ชื่อสินค้า <?php echo $row['name_product']; ?> </h5>
                             </div>
-                            <div class="col-2">
+                            <div class="col">
                                 <h5>ราคา <?php echo $row['price_product']; ?> บาท </h5>
                             </div>
-                            <div class="col-3">
+                            <div class="col">
                                 <h5>จำนวน <?php echo $row['amount']; ?> หน่วย/ชิ้น</h5>
                             </div>
                             <div class="col-1">
@@ -99,7 +99,34 @@ if(isset($_POST['del'])){
             <div class="col-sm-12 col-md-8 col-lg-6">
                 <div class="card shadow">
                     <div class="card-body">
-                        
+                        <div class="row">
+                        <?php
+                        if(isset($id_user)){
+                        $status = $conn->query("SELECT * FROM status_or WHERE id_user = $id_user");
+                        while($row = $status->fetch_assoc()){
+                        ?>
+                        <div class="col-sm-8 col-md-6 col-lg-4">
+                            <div class="mb-2">
+                            <div class="card">
+                                <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:120px; '  alt="">
+                                <div class="card-body">
+                                    <h5> ชื่อสินค้า <?php echo $row['name_product']; ?></h5>
+                                    <h5> ราคาต่อชิ้น <?php echo $row['price_product']; ?> บาท </h5>
+                                    <h5>จำนวน <?php echo $row['amount']; ?></h5>
+                                    <h5>สถานะ <?php 
+                                    if($row['status_or'] == '0'){
+                                        echo  "รอร้านยืนยันสินค้า";
+                                    }elseif($row['status_or'] == '1'){
+                                        echo "กำลังจัดส่ง";
+                                    }
+                                    ?> </h5>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <?php }
+                    } ?>
+                    </div>
                     </div>
                 </div>
             </div>
