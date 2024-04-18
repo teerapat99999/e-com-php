@@ -87,6 +87,7 @@ if(isset($_POST['add'])){
                   <div class="card">
                     <img src="./img/<?php echo $row['img_product']; ?>" style='max-height:200px;' alt="">
                   <div class="card-body">
+                    <h4>ชื่อสินค้า <?php echo $row['name_product']; ?></h4>
                      <h4>ราคา <?php echo $row['price_product']; ?> บาท </h4>
                      <h5> จำนวนที่เหลือ <?php echo $row['amount'] ?> ชิ้น </h5>
                     <form action="" method="post">
