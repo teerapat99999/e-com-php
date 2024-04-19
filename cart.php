@@ -12,15 +12,16 @@ if(isset($_POST['addstatus'])){
     $id_user = $id_user;
     $id_shop = $_POST['id_shop'];
     $id_cart = $_POST['id_cart'];
+    $id_product = $_POST['id_product'];
     
     $stmt = $conn->prepare("INSERT INTO status_or (id_or,name_product,price_product,amount,img_product,id_user,id_shop) value (?,?,?,?,?,?,?)");
     $stmt->bind_param("issssii",$id_or,$name_product,$price_product,$amount,$img_product,$id_user,$id_shop);
     $stmt->execute();
 
-    $stmt = $conn->prepare("UPDATE  product_shop SET amount - ? ");
-    $stmt->bind_param("i",$amount);
+    $stmt = $conn->prepare("UPDATE product_shop SET amount = amount - ? WHERE id_product = ?");
+    $stmt->bind_param("ii", $amount, $id_product);
     $stmt->execute();
-
+    
     $delete = $conn->prepare("DELETE FROM cart  WHERE id_cart = ? ");
     $delete->bind_param("i",$id_cart);
     $delete->execute();
@@ -78,6 +79,7 @@ if(isset($_POST['del'])){
                             <input type="hidden" name="price_product" value='<?php echo $row['price_product']; ?>'>
                             <input type="hidden" name="amount" value='<?php echo $row['amount']; ?>'>
                             <input type="hidden" name="img_product" value='<?php echo $row['img_product']; ?>'>
+                            <input type="hidden" name="id_product" value='<?php echo $row['id_product']; ?>'>
                             <input type="hidden" name="id_shop" value='<?php echo $row['id_shop']; ?>'>
                             <input type="hidden" name="id_cart" value='<?php echo $row['id_cart']; ?>'>
                             <input type="submit" value="สั่งซื้อ" name='addstatus' class="btn btn-success">

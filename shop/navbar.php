@@ -13,13 +13,16 @@
                 <a class="nav-link" href="./add.php">เพิ่มสินค้า</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./shop/addshop.php"></a>
+                <a class="nav-link" href="./status_shop.php">สถานะการสั่งของ</a>
               </li>
             </ul>
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            <div class="m-2">
+            <a href="./../logout.php"><button class='btn btn-danger' >ออกจากระบบ</button></a>
+            </div>
           </div>
         </div>
     </nav> 

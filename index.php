@@ -9,9 +9,10 @@ if(isset($_POST['add'])){
   $name_product = $_POST['name_product'];
   $price_product = $_POST['price_product'];
   $img_product = $_POST['img_product'];
+  $id_product = $_POST['id_product'];
   $amount = $_POST['amount'];
-  $stmt = $conn->prepare("INSERT INTO cart (id_user,name_product,price_product,img_product,amount,id_shop) value (?,?,?,?,?,?)");
-  $stmt->bind_param("sssssi", $id_user,$name_product,$price_product,$img_product,$amount,$id_shop);
+  $stmt = $conn->prepare("INSERT INTO cart (id_user,name_product,price_product,img_product,amount,id_product,id_shop) value (?,?,?,?,?,?,?)");
+  $stmt->bind_param("ssssssi", $id_user,$name_product,$price_product,$img_product,$amount,$id_product,$id_shop);
   
   if($stmt->execute()){
     $_SESSION['id_user'] = $id_user;
@@ -95,6 +96,7 @@ if(isset($_POST['add'])){
                        <input type="hidden" name="price_product" value="<?php echo $row['price_product']; ?>">
                        <input type="hidden" name="img_product" value="<?php echo $row['img_product']; ?>">
                        <input type="hidden" name="id_shop" value='<?php echo $row['id_shop']; ?>'>
+                       <input type="hidden" name="id_product" value='<?php echo $row['id_product']; ?>'>
                        <input type="number" name="amount" value='1' min='1'  class='form-control' id="">
                        <div class="mt-2">
                        <input type="submit" value="สั่งซื้อ" name='add'  class="btn btn-success">
