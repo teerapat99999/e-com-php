@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include('./../db.php');
+include('./../config/db.php');
 $idshop = $_SESSION['id_shop'];
 if(isset($_POST['add'])){
     $name_pro = $_POST['name_product'];

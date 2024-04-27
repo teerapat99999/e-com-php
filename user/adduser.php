@@ -1,6 +1,6 @@
 
 <?php
-include('./../db.php');
+include('./../config/db.php');
 if(isset($_POST['sum'])){
     $email_user = $_POST['email_user'];
     $password_user = $_POST['password_user'];

@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include('./../db.php');
+include('./../config/db.php');
 $id_shop = $_SESSION['id_shop'];
 if(isset($_POST['add'])){
     $id_or = $_POST['id_or'];

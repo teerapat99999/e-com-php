@@ -1,5 +1,5 @@
 <?php 
-include('./../db.php');
+include('./../config/db.php');
 
 if(isset($_POST['submit'])) {
     $email_shop = $_POST['email_shop'];

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('./../db.php');
+include('./../config/db.php');
 if(isset($_POST['login'])){
     
     $email_user = $_POST['email_shop'];

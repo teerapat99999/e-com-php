@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('./db.php');
+include('./config/db.php');
 if(isset($_POST['add'])){
   if(isset($_SESSION['id_user'])){
   $id_user = $_SESSION['id_user'];
